@@ -10,7 +10,7 @@ data "aws_availability_zones" "available" {
 }
 
 locals {
-  cluster_name ="sd2990-devops-eks"
+  cluster_name ="sd2990-devops4dev-eks"
 }
 
 # VPC
@@ -18,7 +18,7 @@ module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "5.0.0"
 
-  name = "sd2990-devops-vpc"
+  name = "sd2990-devops4dev-vpc"
   cidr = "10.0.0.0/16"
   azs  = slice(data.aws_availability_zones.available.names, 0, 3)
 
@@ -108,7 +108,7 @@ resource "aws_eip" "one" {
 
 # Create Ubuntu server
 resource "aws_instance" "web-server" {
-  ami               = "ami-0df4b2961410d4cff" 
+  ami               = "ami-01811d4912b4ccb26" 
   instance_type     = "t3.small"
   availability_zone = data.aws_availability_zones.available.names[0]
   key_name          = "sd2990_ubuntu_keypair"
@@ -151,7 +151,7 @@ resource "aws_ecr_repository" "frontend_repo" {
 
   tags = {
     Name  = "Frontend repository"
-    Group = "Practical DevOps assigment"
+    Group = "Practical DevOps assignment - SD2990"
   }
 }
 
@@ -215,7 +215,7 @@ resource "aws_ecr_repository" "backend_repo" {
 
   tags = {
     Name  = "Backend repository"
-    Group = "Practical DevOps assigment"
+    Group = "Practical DevOps assignment - SD2990"
   }
 }
 
@@ -289,7 +289,7 @@ module "eks" {
 
   eks_managed_node_groups = {
     one = {
-      name = "node-group-1"
+      name = "sd2990-node-group-1"
 
       instance_types = ["t3.small"]
 
